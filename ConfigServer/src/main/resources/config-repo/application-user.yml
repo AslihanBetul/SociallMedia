@@ -1,0 +1,25 @@
+server:
+  port: 9091
+
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: password
+  data:
+    mongodb:
+      host: localhost
+      port: 27027
+      database: UserServiceDB
+      username: bilge
+      password: bilge!123
+userservice:
+  secret:
+    secret-key: ${JAVA14_SECRET_KEY}
+    issuer: ${JAVA14_ISSUER}
+
+
+redis:
+  host: localhost
+  port: 6379

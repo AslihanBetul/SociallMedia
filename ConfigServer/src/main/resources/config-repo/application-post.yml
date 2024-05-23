@@ -1,0 +1,20 @@
+server:
+  port: 8989
+
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: password
+  data:
+    mongodb:
+      host: localhost
+      port: 27027
+      database: SocialMediaPostServiceDB
+      username: bilge
+      password: bilge!123
+postservice:
+  secret:
+    secret-key: ${JAVA14_SECRET_KEY}
+    issuer: ${JAVA14_ISSUER}

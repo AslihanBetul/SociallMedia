@@ -1,0 +1,10 @@
+dependencies {
+
+    implementation libs.springCloudConfigClient
+
+    implementation libs.springCloudOpenFeign
+    implementation libs.springCloudConfig
+    implementation libs.springCloudAmqp
+    implementation libs.springBootMail
+
+}

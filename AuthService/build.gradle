@@ -1,0 +1,9 @@
+dependencies {
+    implementation libs. springBootDataJpa
+    runtimeOnly libs.postgresql
+    implementation libs.jwt
+    implementation libs.validator
+    implementation libs.springCloudOpenFeign
+    implementation libs.springCloudConfigClient
+    implementation libs.springCloudAmqp
+}

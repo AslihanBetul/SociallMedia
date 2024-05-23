@@ -1,0 +1,9 @@
+
+dependencies {
+    implementation libs.springBootDataMongo
+    implementation libs.jwt
+    implementation libs. springCloudOpenFeign
+    implementation libs.springCloudConfigClient
+    implementation libs.springCloudAmqp
+    implementation libs. springBootRedis
+}

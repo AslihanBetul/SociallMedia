@@ -1,0 +1,9 @@
+rootProject.name = 'SociallMedia'
+include 'AuthService'
+include 'UserService'
+include 'ConfigServer'
+include 'ConfigServerGit'
+include 'PostService'
+include  'ApiGatewayMicroService'
+include 'EmailService'
+
