@@ -14,43 +14,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfig {
-    String directExchangeSocialMediaAuth = "direct-exchange-sociamedia-auth";
 
-    String queueSocialMediaAuth = "queue-socialmedia-auth";
 
-    String queueSocialMediaUserRegisterFromAuth = "queue-socialmedia-userRegisterFromAuth";
 
-    String updateBindingKey = "save-userprofile-key";
-
-    String saveUserRegisterFromAuth = "save-userRegisterFromAuth-key";
-
-    String queueActivateCode= "queue.activateCode";
-    String ActivateCode = "activateCode.key";
-
-    @Bean
-    public DirectExchange directExchangeSocialMediaAuth(){
-        return new DirectExchange(directExchangeSocialMediaAuth);
-    }
-
-    @Bean
-    public Queue queueAuth(){
-        return new Queue(queueSocialMediaAuth);
-    }
-
-    @Bean
-    public Queue queueSocialMediaUserRegisterFromAuth(){
-        return new Queue(queueSocialMediaUserRegisterFromAuth);
-    }
-
-    @Bean
-    public Binding bindingSocialMediaDirectExchange(@Qualifier("queueAuth") Queue queueSocialMediaAuth, DirectExchange directExchangeSocialMediaAuth ){
-        return BindingBuilder.bind(queueSocialMediaAuth).to(directExchangeSocialMediaAuth).with(updateBindingKey);
-    }
-
-    @Bean
-    public Binding bindingSocialMediaUserRegister(@Qualifier("queueSocialMediaUserRegisterFromAuth") Queue queueSocialMediaUserRegisterFromAuth, DirectExchange directExchangeSocialMediaAuth ){
-        return BindingBuilder.bind(queueSocialMediaUserRegisterFromAuth).to(directExchangeSocialMediaAuth).with(saveUserRegisterFromAuth);
-    }
 
     @Bean
     public MessageConverter messageConverter(){
@@ -64,12 +30,5 @@ public class RabbitConfig {
         return rabbitTemplate;
     }
 
-    @Bean
-    public Queue queueActivateCode(){
-        return new Queue(queueActivateCode);
-    }
-    @Bean
-    public Binding bindingActivateCode(@Qualifier("queueActivateCode") Queue queueActivateCode, DirectExchange directExchangeActivateCode){
-        return BindingBuilder.bind(queueActivateCode).to(directExchangeActivateCode).with(ActivateCode);
-    }
+
 }

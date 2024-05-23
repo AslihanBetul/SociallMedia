@@ -10,11 +10,17 @@ import com.abm.exception.ErrorType;
 import com.abm.exception.PostServiceServiceException;
 import com.abm.manager.UserProfileManager;
 import com.abm.mapper.PostMapper;
+import com.abm.rabbitmq.model.PostSaveModel;
+import com.abm.rabbitmq.model.PostUpdateModel;
 import com.abm.repository.PostRepository;
 import com.abm.utility.JwtTokenManger;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +31,24 @@ public class PostService {
     private final PostRepository postRepository;
     private final JwtTokenManger jwtTokenManger;
     private final UserProfileManager userProfileManger;
+    private final RabbitTemplate rabbitTemplate;
+    private final  String directExchange = "direct-exchange";
+    private final String postSaveKey = "save-post-key";
+    private final  String postUpdateKey = "update-post-key";
+    private final  String postDeleteKey = "delete-post-key";
+
     @Transactional
     public String savePost(PostSaveDto dto) {
         Long authId = jwtTokenManger.getAuthIdFromToken(dto.getToken()).orElseThrow(() -> new PostServiceServiceException(ErrorType.TOKEN_VERIFY_FAILED));
 
         Post post = postRepository.save(Post.builder().userId(userProfileManger.getUserIdByAuthId(authId).getBody())
                 .title(dto.getTitle()).content(dto.getContent()).imageUrl(dto.getImageUrl()).build());
+        convertAndSendSaveModel(PostMapper.INSTANCE.postToPostSaveModel(post));
         return SuccessMessages.POST_SUCCESS;
+    }
+
+    private void convertAndSendSaveModel(@RequestBody PostSaveModel postSaveModel){
+        rabbitTemplate.convertAndSend(directExchange, postSaveKey, postSaveModel);
     }
 
        @Transactional
@@ -70,7 +87,11 @@ public class PostService {
         Post post = postRepository.findByUserIdAndId(userProfileManger.getUserIdByAuthId(authId).getBody(), postId).orElseThrow(() -> new PostServiceServiceException(ErrorType.POST_NOT_FOUND));
         post.setPostStatus(PostStatus.DELETED);
         postRepository.save(post);
+        convertAndSendPostId(post.getId());
         return SuccessMessages.POST_DELETE_SUCCESS;
+    }
+    private void convertAndSendPostId(@RequestParam String postId){
+        rabbitTemplate.convertAndSend(directExchange, postDeleteKey, postId);
     }
 
     @Transactional
@@ -85,7 +106,16 @@ public class PostService {
         post.setTitle(dto.getTitle());
         post.setContent(dto.getContent());
         Post saved = postRepository.save(post);
+        convertAndSendUpdateModel(PostMapper.INSTANCE.postToPostUpdateModel(saved));
         return PostMapper.INSTANCE.postToPostResponseDto(saved);
 
+    }
+
+    private void convertAndSendUpdateModel(@RequestBody PostUpdateModel postUpdateModel) {
+        rabbitTemplate.convertAndSend(directExchange,postUpdateKey,postUpdateModel);
+    }
+
+    public List<Post>findAll(){
+        return postRepository.findAll();
     }
 }

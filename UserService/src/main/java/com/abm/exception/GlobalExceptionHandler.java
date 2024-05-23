@@ -55,7 +55,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorMessage,
                 errorType.getHttpStatus());
     }
-    
+
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public final ResponseEntity<ErrorMessage> handleMethodArgumentTypeMismatchException(
             MethodArgumentTypeMismatchException exception) {

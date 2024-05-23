@@ -67,5 +67,10 @@ public class UserProfileController {
 
     }
 
+    @GetMapping("/findall")
+    public ResponseEntity<List<UserProfileResponseDto>> findAll(){
+        return ResponseEntity.ok(userProfileService.findAll());
+    }
+
 
 }

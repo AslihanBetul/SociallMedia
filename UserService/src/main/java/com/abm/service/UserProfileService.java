@@ -18,6 +18,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -150,5 +151,16 @@ public class UserProfileService {
         });
 
           return userProfiles;
+    }
+
+    public List<UserProfileResponseDto> findAll() {
+        List<UserProfileResponseDto>userProfileResponses=new ArrayList<>();
+        userProfileRepository.findAll().forEach(userProfile->{
+            userProfileResponses.add(UserProfileMapper.INSTANCE.responseDto(userProfile));
+        });
+        return userProfileResponses;
+    }
+    public UserProfile findByAuthId(String authId) {
+        return userProfileRepository.findByAuthId(authId).orElseThrow(()-> new UserProfileServiceException(ErrorType.USER_NOT_FOUND));
     }
 }

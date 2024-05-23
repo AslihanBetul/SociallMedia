@@ -14,6 +14,11 @@ spring:
       database: UserServiceDB
       username: bilge
       password: bilge!123
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/AuthServiceDB
+    username: postgres
+    password: 1234
 userservice:
   secret:
     secret-key: ${JAVA14_SECRET_KEY}

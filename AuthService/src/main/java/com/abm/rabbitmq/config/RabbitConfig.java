@@ -23,7 +23,7 @@ public class RabbitConfig {
     String updateBindingKey = "save-userprofile-key";
 
     String saveUserRegisterFromAuth = "save-userRegisterFromAuth-key";
-
+//email
     String queueActivateCode= "queue.activateCode";
     String ActivateCode = "activateCode.key";
 

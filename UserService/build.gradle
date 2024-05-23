@@ -6,4 +6,7 @@ dependencies {
     implementation libs.springCloudConfigClient
     implementation libs.springCloudAmqp
     implementation libs. springBootRedis
+    implementation libs. springBootSecurity
+    implementation libs. springBootDataJpa
+    runtimeOnly libs.postgresql
 }

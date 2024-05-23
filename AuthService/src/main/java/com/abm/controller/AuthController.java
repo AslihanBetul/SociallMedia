@@ -7,10 +7,12 @@ import com.abm.dto.request.AccountActivationRequestDto;
 import com.abm.dto.request.LoginRequestDto;
 import com.abm.dto.request.RegisterRequestDto;
 import com.abm.dto.request.RepasswordRequestDto;
+import com.abm.entity.Auth;
 import com.abm.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,7 +53,7 @@ public class AuthController {
        return ResponseEntity.ok(authService.login(dto));
 
    }
-
+   @PreAuthorize("hasAnyAuthority('ADMIN')")
    @DeleteMapping(EndPoints.DELETE+"/{id}")
     public ResponseEntity<String>delete(@PathVariable ("id") Long authId){
        return ResponseEntity.ok(authService.softDelete(authId));
@@ -89,6 +91,11 @@ public class AuthController {
     public ResponseEntity<String>updatePassword(@RequestBody RepasswordRequestDto repasswordRequestDto){
        authService.updatePassword(repasswordRequestDto);
        return ResponseEntity.ok("success");
+   }
+
+   @GetMapping("/findall")
+    public ResponseEntity<List<Auth>>findAll(){
+       return ResponseEntity.ok(authService.findAll());
    }
 
 

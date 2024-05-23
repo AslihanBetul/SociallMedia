@@ -15,8 +15,10 @@ ext{
     libs=[
             springBootWeb       :"org.springframework.boot:spring-boot-starter-web:$versions.springBoot",
             springBootDataJpa   :"org.springframework.boot:spring-boot-starter-data-jpa:$versions.springBoot",
+            springBootSecurity      :"org.springframework.boot:spring-boot-starter-security:$versions.springBoot",
             springBootMail:"org.springframework.boot:spring-boot-starter-mail:$versions.springBoot",
             springBootRedis:"org.springframework.boot:spring-boot-starter-data-redis:$versions.springBoot",
+            springBootDataElasticSearch   :"org.springframework.boot:spring-boot-starter-data-elasticsearch:$versions.springBoot",
             springBootDataMongo   :"org.springframework.boot:spring-boot-starter-data-mongodb:$versions.springBoot",
             springCloudOpenFeign            :"org.springframework.cloud:spring-cloud-starter-openfeign:$versions.springCloud",
             springCloudGateway           :"org.springframework.cloud:spring-cloud-starter-gateway:$versions.springCloud",

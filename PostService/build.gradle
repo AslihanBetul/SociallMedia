@@ -4,5 +4,6 @@ dependencies {
     implementation libs.jwt
     implementation libs. springCloudOpenFeign
     implementation libs. springCloudConfig
+    implementation libs.springCloudAmqp
 
 }
